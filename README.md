@@ -15,10 +15,25 @@ python3 server.py
 # open http://localhost:3000 (or whatever PORT you set)
 ```
 
-For public access:
+For public access — tunnel with ngrok (expose localhost:3000):
+
+For your mobile app → Mac Mini:
+
 ```sh
-ngrok http 3000
+# 1. Install ngrok
+brew install ngrok          # macOS
+# or: npm i -g ngrok  |  download from https://ngrok.com/download
+
+# 2. Auth (once) — get token at https://dashboard.ngrok.com/get-started/your-authtoken
+ngrok config add-authtoken <YOUR_TOKEN>
+
+# 3. Run nomi + tunnel (two terminals)
+python3 server.py           # terminal 1
+ngrok http 3000             # terminal 2 → gives https://xxxx.ngrok-free.app
 ```
+
+Then open the `https://xxxx.ngrok-free.app` URL on your phone.
+If you changed `PORT` in `.env`, tunnel that port instead (`ngrok http <PORT>`).
 
 ## How it works
 Browser `POST /api/chat {prompt}` → `server.py` prepends the hidden
